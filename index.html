@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+    <script src="https://unpkg.com/vue@3"></script>
+    <link rel="stylesheet" href="./main.css">
+    <title>HealthMeter</title>
+</head>
+<body class="bg-dark">
+    <div id="app">
+        <div class="text-center mt-5 text-light mb-5">
+            <h4>HealthMeter allows you to check different health measurements based on mathematic functions.</h4>
+            <h4>It gives you details on things such as BMI, Muscle Mass, Water Percentage and others.</h4>
+            <p></p>
+            <h4>All you have to do is set your age, weight and height, and the results will be shown on screen.</h4>
+            <h4 class="text-danger">This is NOT a medical app. This was made for academic purposes only.</h4>
+            <h4 class="text-danger">Do not trust these results.</h4>
+        </div>
+
+        <form class="customForm mb-5">
+            <select v-model="gender" @input="SetGender" ref="gender" id="gender" class="form-control w-15" placeholder="Gender" aria-label="gender">
+                <option value="true">Male</option>
+                <option value="false">Female</option>
+            </select>
+            <p></p>
+            <input type="number" @input="CalculateEverything" ref="age" id="age" class="form-control w-15" placeholder="Age" aria-label="age" min="0">
+            <p></p>
+            <input type="number" @input="CalculateEverything" ref="weight" id="weight" class="form-control w-15" placeholder="Weight (KG)" aria-label="weight" min="0">
+            <p></p>
+            <input type="number" @input="CalculateEverything" ref="height" id="height" class="form-control w-15" placeholder="Height (M)" aria-label="height" min="0" step="0.01">
+        </form>
+        
+
+        <hr class="text-light">
+        <div>
+            <div id="content" class="justify-content-evenly text-light">
+                <div class="card">
+                    <div class="card-title">BMI</div>
+                    <hr class="mt-0 mb-0">
+                    <div :class="{'card-content': true, 'mt-0': true, 'card-blue': bmi <= 18.8, 'card-green': bmi > 18.8 && bmi < 24.9, 'card-orange': bmi > 24.9 && bmi < 34.9, 'card-red': bmi >= 34.9}">{{bmi}}</div>
+                    <hr class="mt-0 mb-0">
+                </div>
+                <div class="card">
+                    <div class="card-title">Muscle Mass</div>
+                    <hr class="mt-0 mb-0">
+                    <div :class="{'card-content': true, 'mt-0': true, 'card-red': muscle <= 49.4, 'card-orange': muscle > 49.4 && muscle < 59.4, 'card-green': muscle >= 59.4}">{{muscle}}</div>
+                    <hr class="mt-0 mb-0">
+                </div>
+                <div class="card">
+                    <div class="card-title">Water %</div>
+                    <hr class="mt-0 mb-0">
+                    <div :class="{'card-content': true, 'mt-0': true, 'card-blue': water <= 45, 'card-green': water > 45 && water < 65, 'card-orange': water > 65 && water < 75, 'card-red': water >= 75}">{{water}}%</div>
+                    <hr class="mt-0 mb-0">
+                </div>
+                <div class="card">
+                    <div class="card-title">LBM</div>
+                    <hr class="mt-0 mb-0">
+                    <div :class="{'card-content': true, 'mt-0': true, 'card-blue': lbm <= 70, 'card-green': lbm > 70 && lbm < 80, 'card-orange': lbm > 80 && lbm < 85, 'card-red': lbm >= 85}">{{lbm}}%</div>
+                    <hr class="mt-0 mb-0">
+                </div>
+                <div class="card">
+                    <div class="card-title">Fat</div>
+                    <hr class="mt-0 mb-0">
+                    <div :class="{'card-content': true, 'mt-0': true, 'card-blue': fat <= 11, 'card-green': fat > 11 && fat < 17, 'card-orange': fat > 17 && fat < 27, 'card-red': fat >= 27}">{{fat}}%</div>
+                    <hr class="mt-0 mb-0">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="./main.js"></script>
+    <script>
+
+        window.onload = function() {
+            let data = JSON.parse(localStorage.userData);
+            document.getElementById('gender').value = data.gender;
+            document.getElementById('age').value = data.age;
+            document.getElementById('weight').value = data.weight;
+            document.getElementById('height').value = data.height;
+        } 
+    </script>
+</body>
+</html>
